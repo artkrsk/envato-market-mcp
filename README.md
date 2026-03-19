@@ -30,7 +30,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 ```json
 {
   "mcpServers": {
-    "envato": {
+    "envato-market": {
       "command": "npx",
       "args": ["-y", "@artemsemkin/envato-market-mcp"],
       "env": {
@@ -46,7 +46,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 <summary>Claude Code</summary>
 
 ```bash
-claude mcp add envato \
+claude mcp add envato-market \
   -e ENVATO_TOKEN=your-token \
   -- npx -y @artemsemkin/envato-market-mcp
 ```
@@ -60,7 +60,7 @@ Add to `.vscode/mcp.json` (VS Code) or `.cursor/mcp.json` (Cursor) in your proje
 ```json
 {
   "servers": {
-    "envato": {
+    "envato-market": {
       "command": "npx",
       "args": ["-y", "@artemsemkin/envato-market-mcp"],
       "env": {
