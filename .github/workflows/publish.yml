@@ -5,51 +5,11 @@ on:
     branches:
       - master
     paths:
-      - 'package.json'
+      - "package.json"
 
 jobs:
-  tag:
-    runs-on: ubuntu-latest
+  release:
+    uses: artkrsk/github-actions/.github/workflows/npm-publish.yml@v1
     permissions:
       contents: write
-    outputs:
-      version: ${{ steps.check.outputs.version }}
-      created: ${{ steps.check.outputs.created }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Check version and create tag
-        id: check
-        run: |
-          VERSION="v$(jq -r .version package.json)"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          if git rev-parse "$VERSION" >/dev/null 2>&1; then
-            echo "Tag $VERSION already exists"
-            echo "created=false" >> "$GITHUB_OUTPUT"
-          else
-            git tag "$VERSION"
-            git push origin "$VERSION"
-            echo "Created tag $VERSION"
-            echo "created=true" >> "$GITHUB_OUTPUT"
-          fi
-
-  publish:
-    needs: tag
-    if: needs.tag.outputs.created == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
       id-token: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
-      - run: npm install -g npm@latest
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: npm publish --provenance --access public
