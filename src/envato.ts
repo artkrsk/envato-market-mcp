@@ -123,6 +123,38 @@ function compactComment(match: RawComment) {
   }
 }
 
+interface StatementLine {
+  unique_id: string
+  date: string
+  order_id: number
+  type: string
+  detail: string
+  item_id: number
+  document: string
+  price: number
+  amount: number
+  site?: string
+  other_party_country: string
+  other_party_region: string
+  other_party_city: string
+  other_party_zipcode: string
+  au_rwt?: number
+  au_gst: number
+  eu_vat: number
+  us_rwt: number
+  us_bwt: number
+}
+
+interface StatementResponse {
+  count: number
+  results: StatementLine[]
+  pagination?: {
+    template: string
+    pages: number
+    page_size: number
+  }
+}
+
 // ── API calls ──────────────────────────────────────────────────
 
 export async function verifyPurchase(code: string) {
@@ -159,6 +191,16 @@ export async function getEarnings() {
     `${V1}/market/private/user/earnings-and-sales-by-month.json`
   )
   return data['earnings-and-sales-by-month']
+}
+
+export async function getStatement(page?: number, fromDate?: string, toDate?: string, type?: string, site?: string) {
+  const params = new URLSearchParams()
+  if (page) { params.set('page', String(page)) }
+  if (fromDate) { params.set('from_date', fromDate) }
+  if (toDate) { params.set('to_date', toDate) }
+  if (type) { params.set('type', type) }
+  if (site) { params.set('site', site) }
+  return get<StatementResponse>(`${V3}/market/user/statement?${params}`)
 }
 
 export async function getAccount() {

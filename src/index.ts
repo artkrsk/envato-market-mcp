@@ -9,6 +9,7 @@ import {
   listSales,
   getEarnings,
   getAccount,
+  getStatement,
 } from './envato.js'
 
 // ── Validate env ───────────────────────────────────────────────
@@ -84,6 +85,22 @@ server.registerTool(
     },
   },
   async ({ page }) => run(() => listSales(page)),
+)
+
+server.registerTool(
+  'get_statement',
+  {
+    description: 'List transactions from your Envato statement. Supports filtering by date range, transaction type, and site.',
+    inputSchema: {
+      page: z.number().optional().describe('Page number'),
+      from_date: z.string().optional().describe('Start date (YYYY-MM-DD)'),
+      to_date: z.string().optional().describe('End date (YYYY-MM-DD)'),
+      type: z.string().optional().describe('Transaction type (e.g. "Sale", "Author Fee")'),
+      site: z.string().optional().describe('Envato Market site (e.g. "themeforest.net")'),
+    },
+  },
+  async ({ page, from_date, to_date, type, site }) =>
+    run(() => getStatement(page, from_date, to_date, type, site)),
 )
 
 server.registerTool(

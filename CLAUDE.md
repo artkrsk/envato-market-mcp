@@ -2,7 +2,7 @@
 
 ## What This Is
 
-An MCP server wrapping the Envato Market API. Exposes 6 tools for purchase verification, item lookup, comment search, sales listing, earnings, and account info over stdio transport.
+An MCP server wrapping the Envato Market API. Exposes 7 tools for purchase verification, item lookup, comment search, sales listing, statement, earnings, and account info over stdio transport.
 
 ## Commands
 
@@ -17,7 +17,7 @@ pnpm exec tsc     # type-check without emitting
 
 Two source files in `src/`:
 
-- **index.ts** — MCP server setup. Validates env vars, registers 6 tools, connects via StdioServerTransport.
+- **index.ts** — MCP server setup. Validates env vars, registers 7 tools, connects via StdioServerTransport.
 - **envato.ts** — Envato REST API client. GET helper with Bearer auth. Compact formatters strip verbose fields (HTML descriptions, previews, attributes) from API responses to fit LLM context windows.
 
 ## Key Details
