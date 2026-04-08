@@ -1,7 +1,7 @@
 {
   "name": "@artemsemkin/envato-market-mcp",
-  "version": "1.2.0",
-  "packageManager": "pnpm@10.30.3",
+  "version": "1.2.1",
+  "packageManager": "pnpm@10.33.0",
   "description": "MCP server for the Envato Market API",
   "author": "Artem Semkin",
   "license": "MIT",
